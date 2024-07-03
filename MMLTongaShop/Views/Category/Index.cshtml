@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ModelClasses.Category>
+
+@if (TempData["AlertMessage"] != null)
+{
+	<div class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="btn-close text-dark" data-bs-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		@TempData["AlertMessage"]
+	</div>
+	
+}
+
+<dive class="#">	<!--  used "#" for PaddingAll css -->
+	<div class="row m-3">
+		<div class="col-lg-7 col-md-5 col-sm-12">
+			<h2 class="text-center font-weight-bold">CategoryList</h2>
+			<hr/>
+		</div>
+		<div class="col-lg-5 col-md-5 col-sm-12">
+			<button type="button" class="btn btn-primary form-control" onclick="location.href='@Url.Action("Upsert", "Category")'"
+					style="background: linear-gradient(to bottom, #FF4D01, #F7A400);">Create Category</button>
+		</div>
+		</div>
+	
+
+
+	<div class="#">	<!-- used "#" for PaddingAllWhite css -->
+		<div class="row">
+			<div class="col">
+				@if (Model.Count() > 0)
+				{
+					<table class=" table table-striped table table-bordered">
+						<tr>
+							<th asp-for="Id">ID</th>
+							<th asp-for="Name">Name</th>
+							<th></th>
+						</tr>
+						@foreach(var item in Model)
+						{
+							<tr>
+								<td>@item.Id</td>
+								<td>@item.Name</td>
+								<td>
+
+									<div class="d-flex justify-content-end">
+										<button type="button" class="btn btn-primary form-control" onclick="location.href='@Url.Action("Upsert", "Category", new { id = item.Id })'" style="background-color:#F7A400; width:150px">Edit</button>
+										<button type="button" class="btn btn-danger form-control ml-2" onclick="location.href='@Url.Action("Delete", "Category", new { id = item.Id })'" style="width:150px">Delete</button>
+									</div>
+									
+								</td>
+							</tr>
+						}
+					</table>
+				}
+			</div>
+		</div>
+	</div>
+</dive>

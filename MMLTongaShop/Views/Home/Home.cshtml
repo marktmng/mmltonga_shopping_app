@@ -1,0 +1,65 @@
+﻿@model ModelClasses.ViewModel.HomePageVM
+
+<!-- Hero Section with Carousel -->
+<div class="container-fluid">
+    <!-- Full-Width Carousel -->
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <!-- Carousel Indicators -->
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <!-- Carousel Inner -->
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <a asp-controller="Promotion" asp-action="Index">
+                    <img src="~/images/stone_art.jpg" class="d-block w-100" style="height: 400px" alt="...">
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a asp-controller="Promotion" asp-action="Index">
+                    <img src="~/images/home_decorative.jpg" class="d-block w-100" style="height: 400px" alt="...">
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a asp-controller="Promotion" asp-action="Index">
+                    <img src="~/images/plates.jpg" class="d-block w-100" style="height: 400px" alt="...">
+                </a>
+            </div>
+        </div>
+        <!-- Carousel Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+
+<!-- Product Cards Section -->
+<section class="handicraft-preview">
+    <h2>Explore Our Handicraft Collections</h2>
+    <div class="products">
+        @foreach (var product in Model.ProductList)
+        {
+            <div class="product-card">
+                <img src="@Url.Content("~/Images/" + product.HomeImgUrl)" alt="@product.Name">
+                <h3>@product.Name</h3>
+                <p>$@product.Price</p>
+                <!-- Add more product details as needed -->
+            </div>
+        }
+    </div>
+    <br/>
+    <button type="button" class="btn btn-primary" style="background: linear-gradient(to bottom, #F7A400, #FF4D01 );" onclick="location.href='@Url.Action("Index", "Home")'">
+        Shop Now
+    </button>
+
+</section>
+
+<br/>

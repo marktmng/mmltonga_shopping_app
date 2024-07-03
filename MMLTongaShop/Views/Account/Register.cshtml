@@ -1,0 +1,63 @@
+﻿@model ModelClasses.ViewModel.RegisterVM
+
+@{
+    ViewData["Title"] = "Register";
+    ViewData["HideFooter"] = true;
+}
+
+<h2>Registeration Form</h2>
+
+<form asp-action="Register" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="applicationUser.FirstName"></label>
+        <input asp-for="applicationUser.FirstName" class="form-control" style="border-color:#FF4D01" />
+        <span asp-validation-for="applicationUser.FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="applicationUser.LastName"></label>
+        <input asp-for="applicationUser.LastName" class="form-control" style="border-color:#FF4D01" />
+        <span asp-validation-for="applicationUser.LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UserName"></label>
+        <input asp-for="UserName" class="form-control" style="border-color:#FF4D01" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" style="border-color:#FF4D01" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="applicationUser.Address"></label>
+        <input asp-for="applicationUser.Address" class="form-control" style="border-color:#FF4D01" />
+        <span asp-validation-for="applicationUser.Address" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" class="form-control" style="border-color:#FF4D01" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ConfirmPassword"></label>
+        <input asp-for="ConfirmPassword" type="password" class="form-control" style="border-color:#FF4D01" />
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn " style="background-color:#FF4D01">Submit</button>
+</form>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

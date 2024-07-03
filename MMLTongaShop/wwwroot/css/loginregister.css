@@ -1,0 +1,64 @@
+﻿/* Custom styles for the login/register page */
+.row {
+    margin-top: 20px;
+}
+
+.col-md-6 {
+    padding: 10px;
+}
+
+/* Styles for the login form */
+.login-form {
+    border-right: 2px solid #dee2e6; /* Light grey border */
+    padding-right: 20px;
+}
+
+/* Styles for the registration section */
+.register-section {
+    text-align: center; /* Center align the registration text and button */
+    padding-left: 20px;
+}
+
+/* General form styles */
+.form-group label {
+    display: block;
+    margin-top: 10px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    margin-bottom: 10px;
+}
+
+.btn-primary, .btn-secondary {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+/* Helper text */
+.text-helper {
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+/* Validation error styling */
+.text-danger {
+    color: #dc3545; /* Bootstrap's default danger color */
+}
+
+/* Style adjustments for smaller screens */
+@media (max-width: 768px) {
+    .login-form, .register-section {
+        border-right: none;
+        padding-right: 0;
+        padding-left: 0;
+        text-align: left;
+    }
+}
+
+

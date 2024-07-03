@@ -1,0 +1,20 @@
+﻿@model ModelClasses.Product
+
+<h2>@Model.Name</h2>
+<h4>Price: @Model.Price</h4>
+<p>Description: @Model.Description</p>
+<p>Category: @Model.category.Name</p>
+
+<div>
+    <h3>Images</h3>
+    @if (Model.HomeImgUrl != null)
+    {
+        <img src="~/Images/@Model.HomeImgUrl" alt="Main Image" style="width:150px; height:100px;" />
+    }
+    @foreach (var image in Model.ImgUrls)
+    {
+        <img src="~/Images/@image.ImageUrl" alt="@image.ProductName" style="width:150px; height:100px;" />
+    }
+</div>
+
+<a href="@Url.Action("Index")">Back to List</a>

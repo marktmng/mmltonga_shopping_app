@@ -1,0 +1,108 @@
+﻿@model IEnumerable<ModelClasses.ViewModel.CustomerVM>
+
+@{
+    ViewData["Title"] = "Customer Management";
+    ViewData["HideFooter"] = true;
+}
+
+<!-- Search Form -->
+<div class="bg-light border rounded" style="margin: 20px 0px 20px 0px">
+    <div class="text-end">
+        <form asp-action="Index" method="get">
+            <div class="row m-2">
+                <div class="col-md-6 col-lg-8 col-sm-12">
+                    <h2 class="text-center font-weight-bold">Customer Management</h2>
+                </div>
+                <div class="col-md-6 col-lg-4 col-sm-12">
+                    <div class="d-flex justify-content-end">
+                        <input type="text" name="searchByName" placeholder="Search" class="form-control rounded-left" />
+                        <button type="submit" class="btn btn bg-primary text-white font-weight-bold"> <i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+            <!-- Date Range Inputs -->
+            <div class="row m-2">
+                <div class="col">
+                    <input type="date" name="startDate" class="form-control" placeholder="Start Date">
+                </div>
+                <div class="col">
+                    <input type="date" name="endDate" class="form-control" placeholder="End Date">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="row justify-content-end">
+    <a asp-action="Index" class="btn btn-primary" style="width: 300px">Back to full List</a> 
+</div>
+<br />
+<div class="row justify-content-end">
+    <!-- Button for Top 10 Customers -->
+    <a asp-action="Index" asp-route-topCustomers="true" class="btn btn-info mt-2" style="width: 300px">Top 10 Customers</a>
+</div>
+
+<br />
+
+<p>
+    <button type="button" onclick="location.href='@Url.Action("Create")'" class="btn btn-primary">Add New Customer</button>
+
+</p>
+
+<!-- Responsive Table -->
+<div class="table-responsive">
+    <table class="table">
+        <!-- Table Headings -->
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+                <th>@Html.DisplayNameFor(model => model.LastName)</th>
+                <th>@Html.DisplayNameFor(model => model.Email)</th>
+                <th>@Html.DisplayNameFor(model => model.ContactNumber)</th>
+                <th>Shopping Activity</th>
+                <th>Latest Order Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <!-- Table Body -->
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ContactNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ShoppingActivityCounter)</td>
+                        <td>
+                            @if (item.LatestShopDate.HasValue)
+                            {
+                                @item.LatestShopDate.Value.ToString("yyyy-MM-dd")
+                            }
+                            else
+                            {
+                                <text>No Orders</text>
+                            }
+                        </td>
+                        <td>
+                            @* <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a> *@
+                            <button type="button" style="width:100px; background-color:#F7A400" onclick="location.href='@Url.Action("Edit", new { id = item.Id })'" class="btn btn-success">Edit</button> |
+                            <button type="button" style="width:100px" onclick="location.href='@Url.Action("Delete", new { id = item.Id })'" class="btn btn-danger">Delete</button>
+
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center">No results found</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

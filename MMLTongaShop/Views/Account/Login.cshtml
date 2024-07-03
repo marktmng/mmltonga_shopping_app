@@ -1,0 +1,49 @@
+﻿@model ModelClasses.ViewModel.LoginVM
+
+@{
+    ViewData["Title"] = "Login/Register";
+}
+
+<div class="card justify-content-center" style="padding-top: 50px; border-color:#FF4D01">
+    <div class="card-body">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h2>Login</h2>
+                <form asp-action="Login" method="post" asp-controller="Account" asp-route-returnUrl="@ViewData["returnUrl"]">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group" style="width: 700px">
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group" style="width: 700px">
+                        <label asp-for="Password"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <hr style="color:#FF6700; width: 700px" />
+                </form>
+            </div>
+
+            <div>
+                @* <hr style="color:#FF6700; width: 250px" /> *@
+
+                <div class="card" style="border-color:#FF6700">
+                    <div class="card-body">
+                        <h2 class="card-title">If you are a new user, click below to register</h2>
+                        <!-- Register button triggers a modal or a redirect to a registration page -->
+                        <button type="button" onclick="location.href='@Url.Action("Register", "Account")'" class="btn btn-secondary" style="background-color: #F7A400">Register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

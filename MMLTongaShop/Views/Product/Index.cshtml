@@ -1,0 +1,90 @@
+﻿@model IEnumerable<ModelClasses.Product>
+
+@{
+    ViewData["Title"] = "Product List";
+}
+
+<div class="borderWithColorProd">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center font-weight-bold">Product List</h2>
+            <hr />
+        </div>
+        <div class="col-5">
+            <button onclick="window.location.href='@Url.Action("Create", "Product")'" class="btn btn-primary form-control"
+            style="background: linear-gradient(to bottom, #FF4D01, #F7A400);" >Add Products</button>
+        </div>
+    </div>
+    <br />
+    <!-- Search Form -->
+    <form asp-action="Index" asp-controller="Product" method="get">
+        <div class="form-row">
+            <div class="col">
+                <input type="text" class="form-control" name="searchByName" placeholder="Search by name">
+            </div>
+            <div class="col">
+                <select class="form-control" name="searchByCategoryId">
+                    <option value="">Select Category</option>
+                    @foreach (var category in ViewBag.Categories as List<SelectListItem>)
+                    {
+                        <option value="@category.Value">@category.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <button onclick="window.location.href='@Url.Action("Index", "Product")'" class="btn btn-primary">Back to Full List</button>
+            </div>
+        </div>
+    </form>
+    <br/>
+    <div class="PaddingAllWhite">
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tr class="bg-secondary text-white">
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Price</td>
+                            <td>@Html.Raw(item.Description)</td>
+                            <td>@item.category.Name</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.HomeImgUrl))
+                                {
+                                    <img src="~/Images/@item.HomeImgUrl" class="rounded img-fluid" width="150" height="100" />
+                                }
+                                else
+                                {
+                                    <img src="~/Images/noimage.png" class="rounded img-fluid" width="150" height="100" />
+                                }
+                            </td>
+                            <td>
+                                <button onclick="window.location.href='@Url.Action("Edit", "Product", new { id = item.Id })'" class="btn btn-primary mb-1 form-control" style="background-color:#F7A400">Edit</button>
+                                
+                                <button type="button" onclick="Delete('@Url.Action("Delete", "Product", new { id = item.Id })')" class="btn btn-danger form-control">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+        else
+        {
+            <h1 class="text-info">No product available</h1>
+        }
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/product.js"></script>
+}

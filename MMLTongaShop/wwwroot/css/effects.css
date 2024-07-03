@@ -1,0 +1,46 @@
+﻿button {
+    padding: 10px 30px;
+    background-color:#4800ff;
+    border: 1px solid #464646;
+    color: #464646;
+    font-size: 20px;
+    border: 1px solid;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    /*transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);*/
+
+}
+
+button:hover{
+    background-color: transparent;
+}
+
+    button:hover::after {
+        /*left: 100%;
+        transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);*/
+        animation: slide 0.5s;
+    }
+
+    @keyframes slide {
+        0%, 100% {
+            left: -100%
+        }
+        50%{
+            left: 100%;
+        }
+    }
+
+    button::after {
+        background: white;
+        z-index: 100;
+        content: "";
+        height: 155px;
+        opacity: .5;
+        position: absolute;
+        left: -100%;
+        top: -50px;
+        transform: rotate(35deg);
+        /*transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);*/
+        width: 70px;
+    }
