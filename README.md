@@ -1,8 +1,3 @@
-Check point for EP. 12-16
-
-It seemed like his code from EP16-17 isn't working perfectly. 
-I tried many times and probably I have to try other videos. I'll update soon. Just a check point to continue.
-
 ===================================================================
 
 These are the Nuget Packages. YOU MUST INSTALL "Microsoft.AspNetCore.Mvc.ViewFeatures".
