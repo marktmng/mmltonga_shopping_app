@@ -119,9 +119,9 @@ namespace MMLTongaShop.Controllers
                 FirstName = register.applicationUser.FirstName,
                 LastName = register.applicationUser.LastName,
                 Email = register.Email,
-                NormalizedEmail = _userManager.NormalizeEmail(register.Email), //I added
+                NormalizedEmail = _userManager.NormalizeEmail(register.Email), //I added for role base access
                 UserName = register.UserName,
-                NormalizedUserName = _userManager.NormalizeName(register.UserName), ///I added
+                NormalizedUserName = _userManager.NormalizeName(register.UserName), // I added for role base access
                 Address = register.applicationUser.Address,
             };
 

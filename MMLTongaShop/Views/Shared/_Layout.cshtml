@@ -47,66 +47,61 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <!-- for nav bar -->
-                        <li class="nav-item">
-                            <a class="nav-link text-white font-bold font-medium" asp-area="" asp-controller="Home" asp-action="Home">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white font-bold font-medium" asp-area="" asp-controller="Home" asp-action="Index">Shop</a>
-                        </li>
+                        @if (!SignInManager.IsSignedIn(User) || !User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white font-bold font-medium" asp-area="" asp-controller="Home" asp-action="Home">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white font-bold font-medium" asp-area="" asp-controller="Home" asp-action="Index">Shop</a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-white font-bold font-medium" asp-area="" asp-controller="Promotion" asp-action="Index">Promotions</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white font-bold font-medium" asp-area="" asp-controller="Promotion" asp-action="Index">Promotions</a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-white font-bold font-medium" asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
-                        </li>
-
+                            <li class="nav-item">
+                                <a class="nav-link text-white font-bold font-medium" asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
+                            </li>
+                        }
 
                         @*  I ADDED THIS*@
 
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Category</a>
+                                <a class="nav-link text-white font-bold font-medium" asp-area="" asp-controller="Home" asp-action="Home">Home</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-white font-bold font-medium" asp-area="" asp-controller="Category" asp-action="Index">Category</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Product</a>
+                                <a class="nav-link text-white font-bold font-medium" asp-area="" asp-controller="Product" asp-action="Index">Product</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Index">Customer</a>
+                                <a class="nav-link text-white font-bold font-medium" asp-area="" asp-controller="Customer" asp-action="Index">Management</a>
                             </li>
                         }
 
-                        @*  I ADDED THIS*@
-
-@*                        <li class="nav-item">
-                            <a class="nav-link text-white font-bold font-medium" asp-area="" asp-controller="Category" asp-action="Index">Category</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white font-bold font-medium" asp-area="" asp-controller="Product" asp-action="Index">Product</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white font-bold font-medium" asp-area="" asp-controller="Customer" asp-action="Index">Customer</a>
-                        </li>*@
-
-                        @if (HttpContextAccessor.HttpContext.Session.GetInt32(cartCount.sessionCount) != null)
+                        @if(!SignInManager.IsSignedIn(User) || !User.IsInRole("Admin"))
                         {
-                            <li class="nav-item">
-                                <a asp-controller="Cart" asp-action="CartIndex" class="nav-link">
-                                    @{
-                                        var count = HttpContextAccessor.HttpContext.Session.GetInt32(cartCount.sessionCount);
-                                    }
-                                    <i class="fas fa-shopping-cart fas-light font-medium" style="color: white; vertical-align: middle; margin-top: 2px;">
-                                        &nbsp;
-                                        <strong style="color:white">(@count)</strong>
-                                    </i>
-                                </a>
-                            </li>
+                            if (HttpContextAccessor.HttpContext.Session.GetInt32(cartCount.sessionCount) != null)
+                            {
+                                <li class="nav-item">
+                                    <a asp-controller="Cart" asp-action="CartIndex" class="nav-link">
+                                        @{
+                                            var count = HttpContextAccessor.HttpContext.Session.GetInt32(cartCount.sessionCount);
+                                        }
+                                        <i class="fas fa-shopping-cart fas-light font-medium" style="color: white; vertical-align: middle; margin-top: 2px;">
+                                            &nbsp;
+                                            <strong style="color:white">(@count)</strong>
+                                        </i>
+                                    </a>
+                                </li>
+                            }
                         }
-                        else
+                        else 
                         {
                             <li style="color:white">
                                 <a href="#" class="nav-link">

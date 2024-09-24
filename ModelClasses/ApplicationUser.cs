@@ -26,11 +26,11 @@ namespace ModelClasses
         public string? City { get; set; }
 
         public string? Country { get; set; }
-        [Required]
 
+        [Required]
         public string? PostalCode { get; set; }
+        
         [Required]
-
         public string? State { get; set; }
 
         public string ContactNumber { get; set; }
