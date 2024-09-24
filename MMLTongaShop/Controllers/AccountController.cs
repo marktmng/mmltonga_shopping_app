@@ -130,7 +130,7 @@ namespace MMLTongaShop.Controllers
             if (Registration.Succeeded)
             {
                 // Check if the registered email is for the admin
-                if (user.Email.Equals("Administration", StringComparison.OrdinalIgnoreCase))
+                if (user.Email.Equals("admin@gmail.com", StringComparison.OrdinalIgnoreCase))
                 {
                     // Assign the "Admin" role
                     await _userManager.AddToRoleAsync(user, "Admin");

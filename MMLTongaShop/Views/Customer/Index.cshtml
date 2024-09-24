@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ModelClasses.ViewModel.CustomerVM>
 
 @{
-    ViewData["Title"] = "Customer Management";
+    ViewData["Title"] = "Management";
     ViewData["HideFooter"] = true;
 }
 
@@ -11,7 +11,7 @@
         <form asp-action="Index" method="get">
             <div class="row m-2">
                 <div class="col-md-6 col-lg-8 col-sm-12">
-                    <h2 class="text-center font-weight-bold">Customer Management</h2>
+                    <h2 class="text-center font-weight-bold">App User Management</h2>
                 </div>
                 <div class="col-md-6 col-lg-4 col-sm-12">
                     <div class="d-flex justify-content-end">
@@ -46,7 +46,7 @@
 <br />
 
 <p>
-    <button type="button" onclick="location.href='@Url.Action("Create")'" class="btn btn-primary">Add New Customer</button>
+    <button type="button" onclick="location.href='@Url.Action("Create")'" class="btn btn-primary">Add App User</button>
 
 </p>
 
