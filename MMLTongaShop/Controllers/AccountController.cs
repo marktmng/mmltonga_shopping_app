@@ -63,7 +63,14 @@ namespace MMLTongaShop.Controllers
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User {Email} logged in successfully.", login.Email);
-                        return RedirectToAction("Index", "Home");
+                        //return RedirectToAction("Index", "Home");
+
+                        if(await _userManager.IsInRoleAsync(user, "Admin"))
+                        {
+                            return RedirectToAction("Home", "Home"); // Redirect to the "Home" page for Admin users
+                        }
+
+                        return RedirectToAction("Index", "Home"); // Redirect regular users to the "Index" page
                     }
                     else
                     {
@@ -163,7 +170,7 @@ namespace MMLTongaShop.Controllers
         {
             HttpContext.Session.Clear();
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home"); // after logout route to Index
         }
     }
 }
