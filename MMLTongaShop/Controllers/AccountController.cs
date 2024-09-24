@@ -119,9 +119,9 @@ namespace MMLTongaShop.Controllers
                 FirstName = register.applicationUser.FirstName,
                 LastName = register.applicationUser.LastName,
                 Email = register.Email,
-                NormalizedEmail = _userManager.NormalizeEmail(register.Email), //I added
+                NormalizedEmail = _userManager.NormalizeEmail(register.Email), //I added for role base access
                 UserName = register.UserName,
-                NormalizedUserName = _userManager.NormalizeName(register.UserName), ///I added
+                NormalizedUserName = _userManager.NormalizeName(register.UserName), // I added for role base access
                 Address = register.applicationUser.Address,
             };
 
@@ -130,7 +130,7 @@ namespace MMLTongaShop.Controllers
             if (Registration.Succeeded)
             {
                 // Check if the registered email is for the admin
-                if (user.Email.Equals("admin@gmail.com", StringComparison.OrdinalIgnoreCase))
+                if (user.Email.Equals("Administration", StringComparison.OrdinalIgnoreCase))
                 {
                     // Assign the "Admin" role
                     await _userManager.AddToRoleAsync(user, "Admin");
