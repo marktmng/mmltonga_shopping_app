@@ -88,8 +88,6 @@
                             }
                         </td>
                         <td>
-                            @* <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success">Edit</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a> *@
                             <button type="button" style="width:100px; background-color:#F7A400" onclick="location.href='@Url.Action("Edit", new { id = item.Id })'" class="btn btn-success">Edit</button> |
                             <button type="button" style="width:100px" onclick="location.href='@Url.Action("Delete", new { id = item.Id })'" class="btn btn-danger">Delete</button>
 

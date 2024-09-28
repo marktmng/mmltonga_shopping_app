@@ -74,60 +74,105 @@ namespace MMLTongaShop.Controllers
 		}
 
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create(ProductVM productVM)
-		{
-			string homeImageUrl = "";
-			if (productVM.Images != null)
-			{
-				foreach (var image in productVM.Images)
-				{
-					homeImageUrl = image.FileName;
-					if (homeImageUrl.Contains("Home"))
-					{
-						homeImageUrl = UploadFiles(image);
-						break;
-					}
-				}
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(ProductVM productVM)
+        //{
+        //	string homeImageUrl = "";
+        //	if (productVM.Images != null)
+        //	{
+        //		foreach (var image in productVM.Images)
+        //		{
+        //			homeImageUrl = image.FileName;
+        //			if (homeImageUrl.Contains("Home"))
+        //			{
+        //				homeImageUrl = UploadFiles(image);
+        //				break;
+        //			}
+        //		}
 
-			}
-			productVM.Products.HomeImgUrl = homeImageUrl;
-			await _context.AddAsync(productVM.Products);
-			await _context.SaveChangesAsync();
-			var NewProduct = await _context.Products.Include(u => u.category).FirstOrDefaultAsync(u => u.Name == productVM.Products.Name);
-			productVM.Inventories.Name = NewProduct.Name;
-			productVM.Inventories.Category = NewProduct.category.Name;
-			await _context.Inventories.AddAsync(productVM.Inventories);
-			await _context.SaveChangesAsync();
+        //	}
+        //	productVM.Products.HomeImgUrl = homeImageUrl;
+        //	await _context.AddAsync(productVM.Products);
+        //	await _context.SaveChangesAsync();
+        //	var NewProduct = await _context.Products.Include(u => u.category).FirstOrDefaultAsync(u => u.Name == productVM.Products.Name);
+        //	productVM.Inventories.Name = NewProduct.Name;
+        //	productVM.Inventories.Category = NewProduct.category.Name;
+        //	await _context.Inventories.AddAsync(productVM.Inventories);
+        //	await _context.SaveChangesAsync();
 
-			if (productVM.Images != null)
-			{
-				foreach (var image in productVM.Images)
-				{
-					string tempFileName = image.FileName;
-					if (!tempFileName.Contains("Home"))
-					{
-						string stringFileName = UploadFiles(image);
-						var addressImage = new PImages
-						{
-							ImageUrl = stringFileName,
-							ProductId = NewProduct.Id,
-							ProductName = NewProduct.Name
-						};
-						await _context.PImages.AddAsync(addressImage);
-					}
-				}
-			}
-			await _context.SaveChangesAsync();
+        //	if (productVM.Images != null)
+        //	{
+        //		foreach (var image in productVM.Images)
+        //		{
+        //			string tempFileName = image.FileName;
+        //			if (!tempFileName.Contains("Home"))
+        //			{
+        //				string stringFileName = UploadFiles(image);
+        //				var addressImage = new PImages
+        //				{
+        //					ImageUrl = stringFileName,
+        //					ProductId = NewProduct.Id,
+        //					ProductName = NewProduct.Name
+        //				};
+        //				await _context.PImages.AddAsync(addressImage);
+        //			}
+        //		}
+        //	}
+        //	await _context.SaveChangesAsync();
 
-			return RedirectToAction("Index", "Product");
+        //	return RedirectToAction("Index", "Product");
 
 
-		}
+        //}
+        // --- Or ---
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(ProductVM productVM)
+        {
+            string homeImageUrl = "";
+            if (productVM.Images != null && productVM.Images.Any())
+            {
+                var firstImage = productVM.Images.First();
+                homeImageUrl = UploadFiles(firstImage);
+            }
 
-		//This is for the UPDATE/EDIT Function //
-		[HttpGet]
+            productVM.Products.HomeImgUrl = homeImageUrl;
+            await _context.AddAsync(productVM.Products);
+            await _context.SaveChangesAsync();
+
+            var NewProduct = await _context.Products.Include(u => u.category).FirstOrDefaultAsync(u => u.Name == productVM.Products.Name);
+            productVM.Inventories.Name = NewProduct.Name;
+            productVM.Inventories.Category = NewProduct.category.Name;
+            await _context.Inventories.AddAsync(productVM.Inventories);
+            await _context.SaveChangesAsync();
+
+            if (productVM.Images != null)
+            {
+                foreach (var image in productVM.Images)
+                {
+                    string tempFileName = image.FileName;
+                    if (!tempFileName.Contains("Home"))
+                    {
+                        string stringFileName = UploadFiles(image);
+                        var addressImage = new PImages
+                        {
+                            ImageUrl = stringFileName,
+                            ProductId = NewProduct.Id,
+                            ProductName = NewProduct.Name
+                        };
+                        await _context.PImages.AddAsync(addressImage);
+                    }
+                }
+            }
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Product");
+        }
+
+
+        //This is for the UPDATE/EDIT Function //
+        [HttpGet]
 		public IActionResult Edit(int Id)
 		{
 			ProductVM productsVM = new ProductVM()

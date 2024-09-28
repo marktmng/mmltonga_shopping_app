@@ -1,5 +1,10 @@
 ﻿@model ModelClasses.ViewModel.HomePageVM
 
+@*  ADDED THIS FOR ROLE LOGIN*@
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<IdentityUser> SignInManager
+
 <!-- Hero Section with Carousel -->
 <div class="container-fluid">
     <!-- Full-Width Carousel -->
@@ -56,9 +61,12 @@
         }
     </div>
     <br/>
-    <button type="button" class="btn btn-primary" style="background: linear-gradient(to bottom, #F7A400, #FF4D01 );" onclick="location.href='@Url.Action("Index", "Home")'">
-        Shop Now
-    </button>
+     @if(!SignInManager.IsSignedIn(User) || !User.IsInRole("Admin"))
+    {
+        <button type="button" class="btn btn-primary" style="background: linear-gradient(to bottom, #F7A400, #FF4D01 );" onclick="location.href='@Url.Action("Index", "Home")'">
+            Shop Now
+        </button>
+    }
 
 </section>
 

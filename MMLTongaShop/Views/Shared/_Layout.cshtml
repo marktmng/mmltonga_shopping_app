@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Http;
 @inject IHttpContextAccessor HttpContextAccessor;
 
-@*  I ADDED THIS*@
+@*  I ADDED THIS FOR ROLE LOGIN*@
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<IdentityUser> UserManager
 @inject SignInManager<IdentityUser> SignInManager
@@ -35,10 +35,9 @@
                 <!-- logo -->
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Home" style="color: white;">
 
-                    <img src="~/images/mt_icon.png" style="height: 100px; width: 300px;" />
+					@* <img src="~/images/mt_icon.png" style="height: 100px; width: 300px;" /> *@
+                    <img src="~/images/shopping_app.png" style="height: 70px; width: 100px;" />
                 </a>
-
-                @* <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Home">MMLTongaShop</a> *@
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -128,7 +127,7 @@
     {
         <footer class="border-top footer text-muted bg-light">
             <div class="container">
-                &copy; 2023 - MMLTongaShop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Home</a>
+                &copy; 2023 - MMLTongaShop - <a asp-area="" asp-controller="Home" asp-action="Home">Home</a> <!-- "Privacy" -->
             </div>
         </footer>
     }
