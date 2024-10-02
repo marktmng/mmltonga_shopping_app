@@ -74,6 +74,7 @@ namespace MMLTongaShop.Controllers
 		}
 
 
+
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public async Task<IActionResult> Create(ProductVM productVM)
@@ -126,49 +127,139 @@ namespace MMLTongaShop.Controllers
 
         //}
         // --- Or ---
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductVM productVM)
         {
+            // Initialize homeImageUrl
             string homeImageUrl = "";
+
+            // Check if images are provided and upload the first one
             if (productVM.Images != null && productVM.Images.Any())
             {
                 var firstImage = productVM.Images.First();
-                homeImageUrl = UploadFiles(firstImage);
+                homeImageUrl = UploadFiles(firstImage); // Upload the first image
             }
 
+            // Assign the uploaded image URL to the product
             productVM.Products.HomeImgUrl = homeImageUrl;
-            await _context.AddAsync(productVM.Products);
-            await _context.SaveChangesAsync();
 
-            var NewProduct = await _context.Products.Include(u => u.category).FirstOrDefaultAsync(u => u.Name == productVM.Products.Name);
-            productVM.Inventories.Name = NewProduct.Name;
-            productVM.Inventories.Category = NewProduct.category.Name;
-            await _context.Inventories.AddAsync(productVM.Inventories);
-            await _context.SaveChangesAsync();
-
-            if (productVM.Images != null)
+            try
             {
-                foreach (var image in productVM.Images)
+                // Add the product to the database
+                await _context.AddAsync(productVM.Products);
+                await _context.SaveChangesAsync();
+
+                // Retrieve the newly created product
+                var newProduct = await _context.Products
+                    .Include(u => u.category)
+                    .FirstOrDefaultAsync(u => u.Name == productVM.Products.Name);
+
+                if (newProduct == null)
                 {
-                    string tempFileName = image.FileName;
-                    if (!tempFileName.Contains("Home"))
+                    // Handle case where the product was not found after insertion
+                    ModelState.AddModelError(string.Empty, "Product not found after creation.");
+                    return View(productVM);
+                }
+
+                // Set inventory properties
+                productVM.Inventories.Name = newProduct.Name;
+                productVM.Inventories.Category = newProduct.category.Name;
+
+                // Add inventory to the database
+                await _context.Inventories.AddAsync(productVM.Inventories);
+                await _context.SaveChangesAsync();
+
+                // Handle additional images
+                if (productVM.Images != null)
+                {
+                    foreach (var image in productVM.Images)
                     {
-                        string stringFileName = UploadFiles(image);
-                        var addressImage = new PImages
+                        string tempFileName = image.FileName;
+                        if (!tempFileName.Contains("Home")) // Check if the image is not the home image
                         {
-                            ImageUrl = stringFileName,
-                            ProductId = NewProduct.Id,
-                            ProductName = NewProduct.Name
-                        };
-                        await _context.PImages.AddAsync(addressImage);
+                            string stringFileName = UploadFiles(image);
+                            var addressImage = new PImages
+                            {
+                                ImageUrl = stringFileName,
+                                ProductId = newProduct.Id,
+                                ProductName = newProduct.Name
+                            };
+                            await _context.PImages.AddAsync(addressImage);
+                        }
                     }
                 }
-            }
-            await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index", "Product");
+                // Save all changes to the database
+                await _context.SaveChangesAsync();
+
+                // Redirect to the Index action
+                return RedirectToAction("Index", "Product");
+            }
+            catch (DbUpdateException ex)
+            {
+                // Log the exception (implement a logging mechanism if you haven't already)
+                // For example: _logger.LogError(ex, "Error saving product.");
+                ModelState.AddModelError(string.Empty, "Unable to save changes. Please try again.");
+            }
+            catch (Exception ex)
+            {
+                // Handle any other exceptions that may occur
+                // _logger.LogError(ex, "An error occurred while creating the product.");
+                ModelState.AddModelError(string.Empty, "An unexpected error occurred. Please try again.");
+            }
+
+            // Return the view with the model data if there were errors
+            return View(productVM);
         }
+
+
+        // -- Or --
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(ProductVM productVM)
+        //{
+        //    string homeImageUrl = "";
+        //    if (productVM.Images != null && productVM.Images.Any())
+        //    {
+        //        var firstImage = productVM.Images.First();
+        //        homeImageUrl = UploadFiles(firstImage);
+        //    }
+
+        //    productVM.Products.HomeImgUrl = homeImageUrl;
+        //    await _context.AddAsync(productVM.Products);
+        //    await _context.SaveChangesAsync();
+
+        //    var NewProduct = await _context.Products.Include(u => u.category).FirstOrDefaultAsync(u => u.Name == productVM.Products.Name);
+        //    productVM.Inventories.Name = NewProduct.Name;
+        //    productVM.Inventories.Category = NewProduct.category.Name;
+        //    await _context.Inventories.AddAsync(productVM.Inventories);
+        //    await _context.SaveChangesAsync();
+
+        //    if (productVM.Images != null)
+        //    {
+        //        foreach (var image in productVM.Images)
+        //        {
+        //            string tempFileName = image.FileName;
+        //            if (!tempFileName.Contains("Home"))
+        //            {
+        //                string stringFileName = UploadFiles(image);
+        //                var addressImage = new PImages
+        //                {
+        //                    ImageUrl = stringFileName,
+        //                    ProductId = NewProduct.Id,
+        //                    ProductName = NewProduct.Name
+        //                };
+        //                await _context.PImages.AddAsync(addressImage);
+        //            }
+        //        }
+        //    }
+        //    await _context.SaveChangesAsync();
+
+        //    return RedirectToAction("Index", "Product");
+        //}
 
 
         //This is for the UPDATE/EDIT Function //
